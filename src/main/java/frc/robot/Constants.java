@@ -46,4 +46,8 @@ public final class Constants
     public static final double deadband = 0.05;
     
   }
+  public static class elevatorConstants {
+    public static final int leftElevatorCAN = 14;
+    public static final int rightElevatorCAN = 15;
+  }
 }
