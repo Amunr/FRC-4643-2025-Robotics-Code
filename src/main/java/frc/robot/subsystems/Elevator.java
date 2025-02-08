@@ -27,7 +27,7 @@ public class Elevator extends SubsystemBase  {
     SparkMaxConfig leftElevatorMotorConfig = new SparkMaxConfig();
     SparkMaxConfig rightElevatorMotorConfig = new SparkMaxConfig();
     static SparkClosedLoopController elevatorPID = m_leftElevatorMotor.getClosedLoopController();
-    private static RelativeEncoder leftElevatorEnc = m_leftElevatorMotor.getAlternateEncoder(); 
+    public RelativeEncoder leftElevatorEnc = m_leftElevatorMotor.getAlternateEncoder(); 
     double level = 0; 
         //   public elevatorSys m_elevatorSys;
      public Elevator(){
@@ -46,13 +46,12 @@ public class Elevator extends SubsystemBase  {
      rightElevatorMotorConfig
         .inverted(true)
         .idleMode(IdleMode.kBrake)
-        .follow(m_leftElevatorMotor);
+        .follow(Constants.elevatorConstants.leftElevatorCAN);
 
-        m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    
-        DoubleSupplier leftElevatorEncPos = () -> leftElevatorEnc.getPosition();
+        m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
      }
-    
+
+     
      //positino is around 18.4,  do 10
      public void movePOS (){
     
@@ -79,6 +78,9 @@ public class Elevator extends SubsystemBase  {
     public void resetEnc (){
        leftElevatorEnc.setPosition(0);
 }
+   public double getEnc (){
+      return leftElevatorEnc.getPosition();
+   }
 
 public void manualControl (double speed, boolean enabled){
       if(speed>0.05 || speed <-0.05){

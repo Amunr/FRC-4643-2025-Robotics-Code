@@ -55,4 +55,10 @@ public final class Constants
     public static final int level4Rotations = 10;
     public static final int levelIntakeRotations = 0;
   }
+  public static class coralConstants {
+    public static final int leftCoralCAN = 16;
+    public static final int rightCoralCAN = 17;
+    public static final int backBeamBreakPort = 1;
+    public static final int frontBeamBreakPort = 2; 
+  }
 }
