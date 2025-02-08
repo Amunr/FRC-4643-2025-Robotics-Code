@@ -11,16 +11,22 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.controlConstants;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
 import swervelib.SwerveInputStream;
 
 public class RobotContainer {
 
   DriveTrain driveTrain =  new DriveTrain(new File(Filesystem.getDeployDirectory(), "swerve"));
     XboxController driverXbox = new XboxController(controlConstants.driveController);
+    XboxController operatorContoller = new XboxController(controlConstants.operatorContoller);
+    private Elevator m_elevatorSubsystem = new Elevator();
 
     //SWERVE
       SwerveInputStream driveAngularVelocity = SwerveInputStream.of(driveTrain.getSwerveDrive(),
@@ -45,9 +51,12 @@ public class RobotContainer {
                                                              .allianceRelativeControl(false);
   
 
+                                                             //END OF SWERVE
+
+                                                             //ELEVATOR
 
   public RobotContainer() {
-    configureBindings();
+    configureBindings();    
   }
 
    /**
@@ -59,11 +68,19 @@ public class RobotContainer {
    */
 
   private void configureBindings() {
+    
     Command driveFieldOrientedDirectAngle      = driveTrain.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = driveTrain.driveFieldOriented(driveAngularVelocity);
     Command driveRobotOrientedAngularVelocity  = driveTrain.driveFieldOriented(driveRobotOriented);
     driveTrain.setDefaultCommand(driveFieldOrientedAnglularVelocity);
-
+    new JoystickButton(operatorContoller, XboxController.Button.kRightBumper.value)
+    .onTrue(new InstantCommand(m_elevatorSubsystem::movePOS));
+    new JoystickButton(operatorContoller, XboxController.Button.kB.value).onTrue(new InstantCommand(m_elevatorSubsystem::resetEnc));
+    // Elevator Level set
+    new Trigger(() -> operatorContoller.getPOV() == 0).onTrue(new InstantCommand(m_elevatorSubsystem::setL2));
+    new Trigger(() -> operatorContoller.getPOV() == 90).onTrue(new InstantCommand(m_elevatorSubsystem::setL3));
+    new Trigger(() -> operatorContoller.getPOV() == 180).onTrue(new InstantCommand(m_elevatorSubsystem::setL4));
+    new Trigger(() -> operatorContoller.getPOV() == 270).onTrue(new InstantCommand(m_elevatorSubsystem::setL1));
   }
 
   public Command getAutonomousCommand() {
