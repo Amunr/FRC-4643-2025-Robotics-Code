@@ -5,6 +5,7 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.*;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController.ArbFFUnits;
@@ -17,6 +18,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.config.*;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.elevatorConstants;
@@ -30,9 +32,9 @@ public class Elevator extends SubsystemBase  {
     public RelativeEncoder leftElevatorEnc = m_leftElevatorMotor.getAlternateEncoder(); 
     double level = 0; 
         //   public elevatorSys m_elevatorSys;
-     public Elevator(){
+     public Elevator(boolean PID){
         // this.m_elevatorSys = m_elevatorSys;
-        
+        if(PID){
         leftElevatorMotorConfig
         .inverted(false)
         .idleMode(IdleMode.kBrake) ;
@@ -49,6 +51,22 @@ public class Elevator extends SubsystemBase  {
         .follow(Constants.elevatorConstants.leftElevatorCAN);
 
         m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
+        } else {
+         leftElevatorMotorConfig
+        .inverted(false)
+        .idleMode(IdleMode.kBrake) ;
+        leftElevatorMotorConfig.encoder
+        .positionConversionFactor(8192 )
+        .velocityConversionFactor(1);
+        m_leftElevatorMotor.configure(leftElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+     rightElevatorMotorConfig
+        .inverted(true)
+        .idleMode(IdleMode.kBrake)
+        .follow(Constants.elevatorConstants.leftElevatorCAN);
+        m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
+
+
+        }
      }
 
      
@@ -83,7 +101,8 @@ public class Elevator extends SubsystemBase  {
    }
 
 public void manualControl (double speed, boolean enabled){
-      if(speed>0.05 || speed <-0.05){
+   if(enabled){
+   if(speed>0.05 || speed <-0.05){
    m_rightElevatorMotor.set(-speed);
    m_leftElevatorMotor.set(speed);
    } else {
@@ -91,5 +110,5 @@ public void manualControl (double speed, boolean enabled){
       m_leftElevatorMotor.setVoltage(3);
    }
 }
-
+}
 }
