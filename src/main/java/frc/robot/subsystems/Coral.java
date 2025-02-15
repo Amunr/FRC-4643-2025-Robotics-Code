@@ -25,7 +25,7 @@ public class Coral extends SubsystemBase {
     SparkMaxConfig rightCoralConfig = new SparkMaxConfig();
     // Beam Breaks
     public static AnalogInput coralBeamBreak = new AnalogInput(coralConstants.frontBeamBreakPort); 
-    public static AnalogInput intakeBeamBreak = new AnalogInput(coralConstants.frontBeamBreakPort); 
+    public static AnalogInput intakeBeamBreak = new AnalogInput(coralConstants.backBeamBreakPort); 
     // public BooleanSupplier intakeBeamBreakStatus = () -> (intakeBeamBreak.getValue() < 10);
     public BooleanSupplier coralBeamBreakStatus = () -> (coralBeamBreak.getValue() < 10);
     public BooleanSupplier coralBeamBreakStatusINV = () -> (coralBeamBreak.getValue() > 10 );
@@ -71,7 +71,6 @@ public class Coral extends SubsystemBase {
         } else {
             return true;
         }
-
     }
 
     

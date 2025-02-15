@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.*;
@@ -20,6 +21,7 @@ import com.revrobotics.config.*;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.Constants.elevatorConstants;
 
@@ -29,8 +31,9 @@ public class Elevator extends SubsystemBase  {
     SparkMaxConfig leftElevatorMotorConfig = new SparkMaxConfig();
     SparkMaxConfig rightElevatorMotorConfig = new SparkMaxConfig();
     static SparkClosedLoopController elevatorPID = m_leftElevatorMotor.getClosedLoopController();
-    public RelativeEncoder leftElevatorEnc = m_leftElevatorMotor.getAlternateEncoder(); 
-    double level = 0; 
+    public RelativeEncoder leftElevatorEnc = m_leftElevatorMotor.getEncoder(); 
+    double level = 0;
+//    private SparkLimitSwitch limitSwitch = m_leftElevatorMotor.getReverseLimitSwitch(); 
         //   public elevatorSys m_elevatorSys;
      public Elevator(boolean PID){
         // this.m_elevatorSys = m_elevatorSys;
@@ -42,8 +45,11 @@ public class Elevator extends SubsystemBase  {
         .positionConversionFactor(8192 )
         .velocityConversionFactor(1);
         leftElevatorMotorConfig.closedLoop
-        .feedbackSensor(FeedbackSensor.kAlternateOrExternalEncoder)
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .pid(0.00001, 0, 0);
+      //   leftElevatorMotorConfig.limitSwitch
+      //   .reverseLimitSwitchType(Type.kNormallyOpen)
+      //   .reverseLimitSwitchEnabled(true);
      m_leftElevatorMotor.configure(leftElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
      rightElevatorMotorConfig
         .inverted(true)
@@ -58,6 +64,9 @@ public class Elevator extends SubsystemBase  {
         leftElevatorMotorConfig.encoder
         .positionConversionFactor(8192 )
         .velocityConversionFactor(1);
+      //   leftElevatorMotorConfig.limitSwitch
+      //   .reverseLimitSwitchType(Type.kNormallyOpen)
+      //   .reverseLimitSwitchEnabled(true);
         m_leftElevatorMotor.configure(leftElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
      rightElevatorMotorConfig
         .inverted(true)
@@ -67,9 +76,9 @@ public class Elevator extends SubsystemBase  {
 
 
         }
-     }
 
-     
+     }
+   //  public BooleanSupplier limitSwitchPressedSup = () -> (limitSwitch.isPressed());
      //positino is around 18.4,  do 10
      public void movePOS (){
     
