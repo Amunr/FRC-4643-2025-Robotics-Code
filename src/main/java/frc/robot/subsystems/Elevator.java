@@ -35,54 +35,38 @@ public class Elevator extends SubsystemBase  {
     double level = 0;
 //    private SparkLimitSwitch limitSwitch = m_leftElevatorMotor.getReverseLimitSwitch(); 
         //   public elevatorSys m_elevatorSys;
-     public Elevator(boolean PID){
+     public Elevator(){
         // this.m_elevatorSys = m_elevatorSys;
-        if(PID){
         leftElevatorMotorConfig
         .inverted(false)
-        .idleMode(IdleMode.kBrake) ;
+        .idleMode(IdleMode.kCoast) ;
         leftElevatorMotorConfig.encoder
-        .positionConversionFactor(8192 )
+        .positionConversionFactor(1 )
         .velocityConversionFactor(1);
         leftElevatorMotorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(0.01, 0, 0);
-      //   leftElevatorMotorConfig.limitSwitch
+        .pid(0.1, 0, 0);
+      //   leftExlevatorMotorConfig.limitSwitch
       //   .reverseLimitSwitchType(Type.kNormallyOpen)
-      //   .reverseLimitSwitchEnabled(true);
+      //   .reverseLimitSwitchEnabledtrue);?P?
      m_leftElevatorMotor.configure(leftElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
      rightElevatorMotorConfig
-        .inverted(true)
-        .idleMode(IdleMode.kBrake)
-        .follow(Constants.elevatorConstants.leftElevatorCAN);
+      .inverted(true)
+        .idleMode(IdleMode.kCoast)
+        .follow(Constants.elevatorConstants.leftElevatorCAN, true);
 
         m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
-        } else {
-         leftElevatorMotorConfig
-        .inverted(false)
-        .idleMode(IdleMode.kBrake) ;
-        leftElevatorMotorConfig.encoder
-        .positionConversionFactor(4096)
-        .velocityConversionFactor(1);
-      //   leftElevatorMotorConfig.limitSwitch
-      //   .reverseLimitSwitchType(Type.kNormallyOpen)
-      //   .reverseLimitSwitchEnabled(true);
-        m_leftElevatorMotor.configure(leftElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-     rightElevatorMotorConfig
-        .inverted(true)
-        .idleMode(IdleMode.kBrake)
-        .follow(Constants.elevatorConstants.leftElevatorCAN);
-        m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
 
-
-        }
 
      }
    //  public BooleanSupplier limitSwitchPressedSup = () -> (limitSwitch.isPressed());
      //positino is around 18.4,  do 10
      public void movePOS (){
     
-       elevatorPID.setReference(level,SparkBase.ControlType.kPosition);
+       elevatorPID.setReference(-32,SparkBase.ControlType.kPosition);
+
+            //elevatorPID.setReference(-32,SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0,3, ArbFFUnits.kVoltage);
+
     }
     public void setL1 (){
       level = elevatorConstants.level1Rotations; 

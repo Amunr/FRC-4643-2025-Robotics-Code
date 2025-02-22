@@ -34,7 +34,7 @@ public class RobotContainer {
   DriveTrain driveTrain = new DriveTrain(new File(Filesystem.getDeployDirectory(), "swerve"));
   XboxController driverXbox = new XboxController(controlConstants.driveController);
   public XboxController operatorContoller = new XboxController(controlConstants.operatorContoller);
-  private Elevator m_elevatorSubsystem = new Elevator(false);
+  private Elevator m_elevatorSubsystem = new Elevator();
   Coral m_CoralSubsystem = new Coral();
 
   // SWERVE
