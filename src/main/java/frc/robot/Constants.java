@@ -52,7 +52,7 @@ public final class Constants
     public static final int level1Rotations = 0;
     public static final int level2Rotations = 0;
     public static final int level3Rotations = 0;
-    public static final int level4Rotations = 10;
+    public static final int level4Rotations = -29;
     public static final int levelIntakeRotations = 0;
   }
   public static class coralConstants {

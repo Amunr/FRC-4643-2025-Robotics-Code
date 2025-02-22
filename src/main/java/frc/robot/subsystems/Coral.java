@@ -35,25 +35,28 @@ public class Coral extends SubsystemBase {
         m_leftCoralMotor.configure(leftCoralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         rightCoralConfig
-        .idleMode(IdleMode.kBrake)
-        .follow(Constants.coralConstants.leftCoralCAN);
+        .idleMode(IdleMode.kBrake);
         m_rightCoralMotor.configure(rightCoralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       
     }
 
     public void startIntake(){
         m_leftCoralMotor.set(0.3);
+        m_rightCoralMotor.set(0.3);
 
     }
     public void outtake(){
         m_leftCoralMotor.set(1);
+        m_rightCoralMotor.set(1);
     }
     public void reverseIntake(){
+        m_leftCoralMotor.set(-0.2);
         m_leftCoralMotor.set(-0.2);
 
     }
     public void stopCoralMotor(){
         m_leftCoralMotor.stopMotor();
+        m_rightCoralMotor.stopMotor();
 
     }
     public boolean coralBeamBreakStatus(){

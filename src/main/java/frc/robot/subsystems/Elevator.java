@@ -46,7 +46,7 @@ public class Elevator extends SubsystemBase  {
         .velocityConversionFactor(1);
         leftElevatorMotorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(0.00001, 0, 0);
+        .pid(0.01, 0, 0);
       //   leftElevatorMotorConfig.limitSwitch
       //   .reverseLimitSwitchType(Type.kNormallyOpen)
       //   .reverseLimitSwitchEnabled(true);
@@ -62,7 +62,7 @@ public class Elevator extends SubsystemBase  {
         .inverted(false)
         .idleMode(IdleMode.kBrake) ;
         leftElevatorMotorConfig.encoder
-        .positionConversionFactor(8192 )
+        .positionConversionFactor(4096)
         .velocityConversionFactor(1);
       //   leftElevatorMotorConfig.limitSwitch
       //   .reverseLimitSwitchType(Type.kNormallyOpen)
@@ -82,7 +82,7 @@ public class Elevator extends SubsystemBase  {
      //positino is around 18.4,  do 10
      public void movePOS (){
     
-       elevatorPID.setReference(level,SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0,3, ArbFFUnits.kVoltage);
+       elevatorPID.setReference(level,SparkBase.ControlType.kPosition);
     }
     public void setL1 (){
       level = elevatorConstants.level1Rotations; 

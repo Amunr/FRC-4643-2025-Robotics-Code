@@ -34,7 +34,7 @@ public class RobotContainer {
   DriveTrain driveTrain = new DriveTrain(new File(Filesystem.getDeployDirectory(), "swerve"));
   XboxController driverXbox = new XboxController(controlConstants.driveController);
   public XboxController operatorContoller = new XboxController(controlConstants.operatorContoller);
-  private Elevator m_elevatorSubsystem = new Elevator(true);
+  private Elevator m_elevatorSubsystem = new Elevator(false);
   Coral m_CoralSubsystem = new Coral();
 
   // SWERVE
@@ -110,7 +110,7 @@ public class RobotContainer {
     new Trigger(() -> operatorContoller.getRightTriggerAxis() > 0.3).whileTrue(new InstantCommand(m_CoralSubsystem::outtake))
     .onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
-    new JoystickButton(operatorContoller, XboxController.Button.kB.value).onTrue(new SequentialCommandGroup( 
+    new JoystickButton(operatorContoller, XboxController.Button.kLeftBumper.value).onTrue(new SequentialCommandGroup( 
       new InstantCommand(m_CoralSubsystem::startIntake), 
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
       new InstantCommand(m_CoralSubsystem::reverseIntake),
