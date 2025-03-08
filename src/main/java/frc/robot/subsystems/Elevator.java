@@ -27,9 +27,9 @@ import frc.robot.Constants.elevatorConstants;
 
 public class Elevator extends SubsystemBase  {
     public static SparkMax m_leftElevatorMotor = new SparkMax(Constants.elevatorConstants.leftElevatorCAN, MotorType.kBrushless);
-    public static SparkMax m_rightElevatorMotor = new SparkMax(Constants.elevatorConstants.rightElevatorCAN, MotorType.kBrushless);
+  //  public static SparkMax m_rightElevatorMotor = new SparkMax(Constants.elevatorConstants.rightElevatorCAN, MotorType.kBrushless);
     SparkMaxConfig leftElevatorMotorConfig = new SparkMaxConfig();
-    SparkMaxConfig rightElevatorMotorConfig = new SparkMaxConfig();
+  //  SparkMaxConfig rightElevatorMotorConfig = new SparkMaxConfig();
     static SparkClosedLoopController elevatorPID = m_leftElevatorMotor.getClosedLoopController();
     public RelativeEncoder leftElevatorEnc = m_leftElevatorMotor.getEncoder(); 
     double level = 0;
@@ -45,17 +45,17 @@ public class Elevator extends SubsystemBase  {
         .velocityConversionFactor(1);
         leftElevatorMotorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(0.1, 0, 0);
+        .pid(0.05, 0, 0);
       //   leftExlevatorMotorConfig.limitSwitch
       //   .reverseLimitSwitchType(Type.kNormallyOpen)
       //   .reverseLimitSwitchEnabledtrue);?P?
      m_leftElevatorMotor.configure(leftElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-     rightElevatorMotorConfig
-      .inverted(true)
-        .idleMode(IdleMode.kCoast)
-        .follow(Constants.elevatorConstants.leftElevatorCAN, true);
+    //  rightElevatorMotorConfig
+    //   .inverted(false)
+    //     .idleMode(IdleMode.kCoast)
+    //     .follow(Constants.elevatorConstants.leftElevatorCAN, true);
 
-        m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
+    //     m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
 
 
      }
@@ -96,11 +96,11 @@ public class Elevator extends SubsystemBase  {
 public void manualControl (double speed, boolean enabled){
    if(enabled){
    if(speed>0.05 || speed <-0.05){
-   m_rightElevatorMotor.set(-speed);
-   m_leftElevatorMotor.set(speed);
+// m_rightElevatorMotor.set(-speed);
+//   m_leftElevatorMotor.set(speed);
    } else {
-      m_rightElevatorMotor.setVoltage(3);
-      m_leftElevatorMotor.setVoltage(3);
+   //   m_rightElevatorMotor.setVoltage(3);
+    //  m_leftElevatorMotor.setVoltage(3);
    }
 }
 }
