@@ -27,9 +27,9 @@ import frc.robot.Constants.elevatorConstants;
 
 public class Elevator extends SubsystemBase  {
     public static SparkMax m_leftElevatorMotor = new SparkMax(Constants.elevatorConstants.leftElevatorCAN, MotorType.kBrushless);
-  //  public static SparkMax m_rightElevatorMotor = new SparkMax(Constants.elevatorConstants.rightElevatorCAN, MotorType.kBrushless);
+    public static SparkMax m_rightElevatorMotor = new SparkMax(Constants.elevatorConstants.rightElevatorCAN, MotorType.kBrushless);
     SparkMaxConfig leftElevatorMotorConfig = new SparkMaxConfig();
-  //  SparkMaxConfig rightElevatorMotorConfig = new SparkMaxConfig();
+    SparkMaxConfig rightElevatorMotorConfig = new SparkMaxConfig();
     static SparkClosedLoopController elevatorPID = m_leftElevatorMotor.getClosedLoopController();
     public RelativeEncoder leftElevatorEnc = m_leftElevatorMotor.getEncoder(); 
     double level = 0;
@@ -50,12 +50,12 @@ public class Elevator extends SubsystemBase  {
       //   .reverseLimitSwitchType(Type.kNormallyOpen)
       //   .reverseLimitSwitchEnabledtrue);?P?
      m_leftElevatorMotor.configure(leftElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    //  rightElevatorMotorConfig
-    //   .inverted(false)
-    //     .idleMode(IdleMode.kCoast)
-    //     .follow(Constants.elevatorConstants.leftElevatorCAN, true);
+      rightElevatorMotorConfig
+      .inverted(false)
+        .idleMode(IdleMode.kCoast)
+        .follow(Constants.elevatorConstants.leftElevatorCAN, true);
 
-    //     m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
+       m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
 
 
      }
