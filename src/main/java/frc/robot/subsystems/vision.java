@@ -19,23 +19,34 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
-    AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
-    
+    private Optional<AprilTagFieldLayout> optionalFieldLayout;
+    private AprilTagFieldLayout aprilTagFieldLayout;
+    private PhotonCamera camera;    
+    private Transform3d robotToCam;
+    private PhotonPoseEstimator photonPoseEstimator;
+    private List<PhotonPipelineResult> unreadResults;
+    private PhotonPipelineResult latestResult;
+    public Vision() {
+        AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
 
-        PhotonCamera camera = new PhotonCamera("photonvision");
-        PhotonPipelineResult result = camera.getLatestResult();
-        boolean hasTargets = result.hasTargets();
-        List<PhotonTrackedTarget> targets = result.getTargets();
-        PhotonTrackedTarget target = result.getBestTarget();
-        int targetID = target.getFiducialId();
-        double poseAmbiguity = target.getPoseAmbiguity();
-        //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-// PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);        //setup
-        
-    // public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
-    //     photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
-    //     return photonPoseEstimator.update();
-    // }
+        camera = new PhotonCamera("photonvision");
+        robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0)); // Cam mounted
+                                                                                                 // facing // forward,
+                                                                                                 // half a meter
+                                                                                                 // forward of
+                                                                                                 // center, half
+                                                                                                 // a meter up
+                                                                                                 // from center.
+        photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam);
+    }
 
-    
+    // Construct PhotonPoseEstimator
+    public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+        photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
+        unreadResults =  camera.getAllUnreadResults();
+       latestResult = unreadResults.get(unreadResults.size()-1);
+        return photonPoseEstimator.update(latestResult);
+    }
+
 }

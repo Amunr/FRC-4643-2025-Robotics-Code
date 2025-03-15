@@ -51,8 +51,7 @@ public class Elevator extends SubsystemBase  {
       //   .reverseLimitSwitchEnabledtrue);?P?
      m_leftElevatorMotor.configure(leftElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       rightElevatorMotorConfig
-      .inverted(false)
-        .idleMode(IdleMode.kCoast)
+              .idleMode(IdleMode.kCoast)
         .follow(Constants.elevatorConstants.leftElevatorCAN, true);
 
        m_rightElevatorMotor.configure(rightElevatorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
@@ -63,9 +62,9 @@ public class Elevator extends SubsystemBase  {
      //positino is around 18.4,  do 10
      public void movePOS (){
     
-       elevatorPID.setReference(-32,SparkBase.ControlType.kPosition);
+     //  elevatorPID.setReference(-32,SparkBase.ControlType.kPosition);
 
-            //elevatorPID.setReference(-32,SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0,3, ArbFFUnits.kVoltage);
+            elevatorPID.setReference(-32,SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0,3, ArbFFUnits.kVoltage);
 
     }
     public void setL1 (){
