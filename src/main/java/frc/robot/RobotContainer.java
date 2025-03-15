@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.controlConstants;
 import frc.robot.Constants.elevatorConstants;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -36,6 +37,7 @@ public class RobotContainer {
   public XboxController operatorContoller = new XboxController(controlConstants.operatorContoller);
   private Elevator m_elevatorSubsystem = new Elevator();
   Coral m_CoralSubsystem = new Coral();
+  Climber m_ClimberSubsystem = new Climber();
 
   // SWERVE
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(driveTrain.getSwerveDrive(),
@@ -116,6 +118,11 @@ public class RobotContainer {
       new InstantCommand(m_CoralSubsystem::reverseIntake),
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatusINV),
       new InstantCommand(m_CoralSubsystem::stopCoralMotor))).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
+
+      //Climber Controlls
+  new JoystickButton(operatorContoller, XboxController.Button.kY.value).onTrue(new InstantCommand(m_ClimberSubsystem::climb));
+  
+  new JoystickButton(operatorContoller, XboxController.Button.kA.value).onTrue(new InstantCommand(m_ClimberSubsystem::deClimb));
   }
   //DELETE AT SOME POINT
   public void manualElevator(){

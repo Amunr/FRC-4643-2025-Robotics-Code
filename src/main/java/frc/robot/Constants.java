@@ -61,4 +61,8 @@ public final class Constants
     public static final int backBeamBreakPort = 1;
     public static final int frontBeamBreakPort = 2; 
   }
+
+  public static class climberConstants {
+  public static final int climberMotorCAN = 18;
+  }
 }

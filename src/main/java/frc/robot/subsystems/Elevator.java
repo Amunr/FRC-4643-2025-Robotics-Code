@@ -45,7 +45,7 @@ public class Elevator extends SubsystemBase  {
         .velocityConversionFactor(1);
         leftElevatorMotorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(0.05, 0, 0);
+        .pid(0.0001, 0, 0);
       //   leftExlevatorMotorConfig.limitSwitch
       //   .reverseLimitSwitchType(Type.kNormallyOpen)
       //   .reverseLimitSwitchEnabledtrue);?P?
