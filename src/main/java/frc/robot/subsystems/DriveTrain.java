@@ -12,6 +12,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,7 +31,8 @@ import static edu.wpi.first.units.Units.Meter;
 public class DriveTrain extends SubsystemBase {
   public SwerveDrive swerveDrive;
   public double maximumSpeed = Units.feetToMeters(4);
-
+  public Vision visionSubsystem; 
+  private boolean k_vision;
 public DriveTrain(File directory){
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try {
@@ -99,7 +101,6 @@ public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translat
   {
     swerveDrive.setMotorIdleMode(brake);
   }
-
   //PATHPLANNAR
 public void setupPathPlanner()
   {
@@ -186,6 +187,19 @@ public void setupPathPlanner()
   public void setChassisSpeeds(ChassisSpeeds chassisSpeeds)
   {
     swerveDrive.setChassisSpeeds(chassisSpeeds);
+  }
+
+  public void setupPhotonVision(){
+    k_vision = true;
+    visionSubsystem = new Vision();
+    }
+
+  @Override
+  public void periodic(){
+    if(k_vision){
+      swerveDrive.updateOdometry();
+      visionSubsystem.updatePoseEstimation(swerveDrive, swerveDrive.getPose());
+    }
   }
 
 }
