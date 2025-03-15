@@ -64,7 +64,7 @@ public class Elevator extends SubsystemBase  {
     
      //  elevatorPID.setReference(-32,SparkBase.ControlType.kPosition);
 
-            elevatorPID.setReference(-32,SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0,3, ArbFFUnits.kVoltage);
+            elevatorPID.setReference(level,SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0,3, ArbFFUnits.kVoltage);
 
     }
     public void setL1 (){

@@ -100,7 +100,7 @@ public class RobotContainer {
     new Trigger(() -> operatorContoller.getPOV() == 270).onTrue(new InstantCommand(m_elevatorSubsystem::setL1));
    // new Trigger(m_elevatorSubsystem.limitSwitchPressedSup).onTrue(new InstantCommand(m_elevatorSubsystem::resetEnc));
     //Coral Controls
-    new Trigger(() -> m_CoralSubsystem.intakeBeamBreakStatus()).onTrue(new SequentialCommandGroup( 
+    new Trigger(() -> m_CoralSubsystem.intakeBeamBreakStatus()).onTrue(new SequentialCommandGroup(
       new InstantCommand(m_CoralSubsystem::startIntake), 
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus).withTimeout(5),
       new InstantCommand(m_CoralSubsystem::reverseIntake),
@@ -123,6 +123,8 @@ public class RobotContainer {
   new JoystickButton(operatorContoller, XboxController.Button.kY.value).onTrue(new InstantCommand(m_ClimberSubsystem::climb));
   
   new JoystickButton(operatorContoller, XboxController.Button.kA.value).onTrue(new InstantCommand(m_ClimberSubsystem::deClimb));
+
+  new JoystickButton(operatorContoller, XboxController.Button.kX.value).onTrue(new InstantCommand(m_elevatorSubsystem::setIntake));
   }
   //DELETE AT SOME POINT
   public void manualElevator(){
