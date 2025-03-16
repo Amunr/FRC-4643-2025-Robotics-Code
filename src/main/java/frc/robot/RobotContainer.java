@@ -117,7 +117,9 @@ public class RobotContainer {
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
       new InstantCommand(m_CoralSubsystem::slowIntake),
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatusINV),
-      new InstantCommand(m_CoralSubsystem::stopCoralMotor))).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
+      new InstantCommand(m_CoralSubsystem::stopCoralMotor),
+      new InstantCommand(m_CoralSubsystem::peiceHeldTrue)
+      )).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
       //Climber Controlls
   new JoystickButton(operatorContoller, XboxController.Button.kY.value).onTrue(new InstantCommand(m_ClimberSubsystem::climb));

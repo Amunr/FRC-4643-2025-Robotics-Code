@@ -14,6 +14,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.coralConstants;
@@ -23,13 +24,16 @@ public class Coral extends SubsystemBase {
     public static SparkMax m_rightCoralMotor = new SparkMax(Constants.coralConstants.rightCoralCAN, MotorType.kBrushless);
     SparkMaxConfig leftCoralConfig = new SparkMaxConfig();
     SparkMaxConfig rightCoralConfig = new SparkMaxConfig();
+
     // Beam Breaks
     public static AnalogInput coralBeamBreak = new AnalogInput(coralConstants.frontBeamBreakPort); 
     public static AnalogInput intakeBeamBreak = new AnalogInput(coralConstants.backBeamBreakPort); 
     // public BooleanSupplier intakeBeamBreakStatus = () -> (intakeBeamBreak.getValue() < 10);
     public BooleanSupplier coralBeamBreakStatus = () -> (coralBeamBreak.getValue() < 10);
     public BooleanSupplier coralBeamBreakStatusINV = () -> (coralBeamBreak.getValue() > 10 );
+    public Boolean peiceHeld;
     public Coral () {
+         peiceHeld =  SmartDashboard.getBoolean("Preload", true);
         leftCoralConfig
         .idleMode(IdleMode.kBrake)
         .inverted(false);
@@ -54,6 +58,11 @@ public class Coral extends SubsystemBase {
     public void outtake(){
         m_leftCoralMotor.set(1);
         m_rightCoralMotor.set(1);
+        peiceHeld = false;
+    }
+
+    public void peiceHeldTrue(){
+        peiceHeld = true;
     }
     public void reverseIntake(){
         m_leftCoralMotor.set(-0.5);

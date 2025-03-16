@@ -25,7 +25,6 @@ public class Climber extends SubsystemBase {
             climberMotorConfig.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             .pid(0.0001,0,0);
-
             m_climberMotor.configure(climberMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 
