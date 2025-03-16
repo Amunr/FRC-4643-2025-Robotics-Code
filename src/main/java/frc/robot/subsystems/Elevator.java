@@ -11,6 +11,7 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController.ArbFFUnits;
 
+import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -20,6 +21,7 @@ import com.revrobotics.config.*;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
@@ -32,10 +34,11 @@ public class Elevator extends SubsystemBase  {
     SparkMaxConfig rightElevatorMotorConfig = new SparkMaxConfig();
     static SparkClosedLoopController elevatorPID = m_leftElevatorMotor.getClosedLoopController();
     public RelativeEncoder leftElevatorEnc = m_leftElevatorMotor.getEncoder(); 
-    double level = 0;
+    double level = Constants.elevatorConstants.level1Rotations;
 //    private SparkLimitSwitch limitSwitch = m_leftElevatorMotor.getReverseLimitSwitch(); 
         //   public elevatorSys m_elevatorSys;
      public Elevator(){
+      SmartDashboard.putString("Elevator Set Level", "level One");
         // this.m_elevatorSys = m_elevatorSys;
         leftElevatorMotorConfig
         .inverted(true)
@@ -70,19 +73,23 @@ public class Elevator extends SubsystemBase  {
     }
     public void setL1 (){
       level = elevatorConstants.level1Rotations; 
-
+      SmartDashboard.putString("Elevator Set Level", "level One");
     }
     public void setL2 (){
       level = elevatorConstants.level2Rotations; 
+      SmartDashboard.putString("Elevator Set Level", "level Two");
     }
     public void setL3 (){
       level = elevatorConstants.level3Rotations; 
+      SmartDashboard.putString("Elevator Set Level", "level Three");
     }
     public void setL4 (){
       level = elevatorConstants.level4Rotations; 
+      SmartDashboard.putString("Elevator Set Level", "level Four");
     }
     public void setIntake () {
       level = elevatorConstants.levelIntakeRotations; 
+      SmartDashboard.putString("Elevator Set Level", "level intake");
     }
 
     
