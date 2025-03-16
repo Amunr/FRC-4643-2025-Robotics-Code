@@ -112,7 +112,7 @@ public class RobotContainer {
     new Trigger(() -> operatorContoller.getRightTriggerAxis() > 0.3).whileTrue(new InstantCommand(m_CoralSubsystem::outtake))
     .onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
-    new JoystickButton(operatorContoller, XboxController.Button.kLeftBumper.value).onTrue(new SequentialCommandGroup( 
+    new JoystickButton(operatorContoller, XboxController.Button.kLeftBumper.value).whileTrue(new SequentialCommandGroup( 
       new InstantCommand(m_CoralSubsystem::startIntake), 
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
       new InstantCommand(m_CoralSubsystem::slowIntake),
