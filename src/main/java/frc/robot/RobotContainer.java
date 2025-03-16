@@ -115,8 +115,10 @@ public class RobotContainer {
     new JoystickButton(operatorContoller, XboxController.Button.kLeftBumper.value).onTrue(new SequentialCommandGroup( 
       new InstantCommand(m_CoralSubsystem::startIntake), 
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
-      new InstantCommand(m_CoralSubsystem::reverseIntake),
+      new InstantCommand(m_CoralSubsystem::slowIntake),
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatusINV),
+      new InstantCommand(m_CoralSubsystem::reverseIntake),
+      new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
       new InstantCommand(m_CoralSubsystem::stopCoralMotor))).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
       //Climber Controlls
@@ -138,6 +140,8 @@ public class RobotContainer {
 
   public void robotContainerPerodic() {
     SmartDashboard.putNumber("Elevator Encoder Position", m_elevatorSubsystem.getEnc());
+    SmartDashboard.putNumber("Intake Beam Break Value", m_CoralSubsystem.coroalBeamBreakStatusINT());
+    SmartDashboard.putBoolean("FrontBeamBreak",  m_CoralSubsystem.coralBeamBreakStatus());
   }
   //Path planner
 

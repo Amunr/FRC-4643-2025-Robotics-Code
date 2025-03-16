@@ -38,14 +38,16 @@ public class Elevator extends SubsystemBase  {
      public Elevator(){
         // this.m_elevatorSys = m_elevatorSys;
         leftElevatorMotorConfig
-        .inverted(false)
+        .inverted(true)
         .idleMode(IdleMode.kCoast) ;
         leftElevatorMotorConfig.encoder
-        .positionConversionFactor(1 )
+        .positionConversionFactor(1)
         .velocityConversionFactor(1);
         leftElevatorMotorConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(0.0001, 0, 0);
+        .pid(0.065, 0, 0)
+        .maxOutput(0.9)
+        ;
       //   leftExlevatorMotorConfig.limitSwitch
       //   .reverseLimitSwitchType(Type.kNormallyOpen)
       //   .reverseLimitSwitchEnabledtrue);?P?
@@ -64,8 +66,7 @@ public class Elevator extends SubsystemBase  {
     
      //  elevatorPID.setReference(-32,SparkBase.ControlType.kPosition);
 
-            elevatorPID.setReference(level,SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0,3, ArbFFUnits.kVoltage);
-
+            elevatorPID.setReference(level,SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0,0, ArbFFUnits.kVoltage);
     }
     public void setL1 (){
       level = elevatorConstants.level1Rotations; 

@@ -31,27 +31,33 @@ public class Coral extends SubsystemBase {
     public BooleanSupplier coralBeamBreakStatusINV = () -> (coralBeamBreak.getValue() > 10 );
     public Coral () {
         leftCoralConfig
-        .idleMode(IdleMode.kBrake);
+        .idleMode(IdleMode.kBrake)
+        .inverted(false);
         m_leftCoralMotor.configure(leftCoralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         rightCoralConfig
-        .idleMode(IdleMode.kBrake);
+        .idleMode(IdleMode.kBrake)
+        .inverted(true);
         m_rightCoralMotor.configure(rightCoralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       
     }
 
     public void startIntake(){
-        m_leftCoralMotor.set(0.3);
-        m_rightCoralMotor.set(0.3);
+        m_leftCoralMotor.set(0.15);
+        m_rightCoralMotor.set(0.15);
 
+    }
+    public void slowIntake(){
+        m_leftCoralMotor.set(0.08);
+        m_rightCoralMotor.set(0.08);
     }
     public void outtake(){
         m_leftCoralMotor.set(1);
         m_rightCoralMotor.set(1);
     }
     public void reverseIntake(){
-        m_leftCoralMotor.set(-0.2);
-        m_leftCoralMotor.set(-0.2);
+        m_leftCoralMotor.set(-0.5);
+        m_leftCoralMotor.set(-0.5);
 
     }
     public void stopCoralMotor(){
@@ -76,5 +82,7 @@ public class Coral extends SubsystemBase {
         }
     }
 
-    
+    public int coroalBeamBreakStatusINT(){
+        return coralBeamBreak.getValue();
+    } 
 }

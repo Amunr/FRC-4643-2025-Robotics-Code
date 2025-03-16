@@ -23,6 +23,7 @@ import swervelib.SwerveDrive;
 import swervelib.math.SwerveMath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
@@ -30,7 +31,7 @@ import static edu.wpi.first.units.Units.Meter;
 
 public class DriveTrain extends SubsystemBase {
   public SwerveDrive swerveDrive;
-  public double maximumSpeed = Units.feetToMeters(4);
+  public double maximumSpeed = Units.feetToMeters(80);
   public Vision visionSubsystem; 
   private boolean k_vision;
 public DriveTrain(File directory){
@@ -49,6 +50,7 @@ public DriveTrain(File directory){
     0.1);
     swerveDrive.setModuleEncoderAutoSynchronize(false,
     1);
+
   }
 
 
@@ -136,9 +138,9 @@ public void setupPathPlanner()
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
-              new PIDConstants(5.0, 0.0, 0.0),
+              new PIDConstants(0, 0.0, 0.0),
               // Translation PID constants
-              new PIDConstants(5.0, 0.0, 0.0)
+              new PIDConstants(0, 0.0, 0.0)
               // Rotation PID constants
           ),
           config,
@@ -187,7 +189,7 @@ public void setupPathPlanner()
   public void setChassisSpeeds(ChassisSpeeds chassisSpeeds)
   {
     swerveDrive.setChassisSpeeds(chassisSpeeds);
-  }
+    }
 
   public void setupPhotonVision(){
     k_vision = true;
