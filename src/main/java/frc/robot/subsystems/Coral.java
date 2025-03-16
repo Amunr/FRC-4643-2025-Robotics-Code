@@ -34,6 +34,7 @@ public class Coral extends SubsystemBase {
     public Boolean peiceHeld;
     public Coral () {
          peiceHeld =  SmartDashboard.getBoolean("Preload", true);
+         SmartDashboard.putBoolean("Gamepeice", peiceHeld);
         leftCoralConfig
         .idleMode(IdleMode.kBrake)
         .inverted(false);
@@ -59,10 +60,12 @@ public class Coral extends SubsystemBase {
         m_leftCoralMotor.set(1);
         m_rightCoralMotor.set(1);
         peiceHeld = false;
+        SmartDashboard.putBoolean("Gamepiece", peiceHeld);
     }
 
     public void peiceHeldTrue(){
         peiceHeld = true;
+        SmartDashboard.putBoolean("Gamepiece", peiceHeld);
     }
     public void reverseIntake(){
         m_leftCoralMotor.set(-0.5);
