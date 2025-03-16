@@ -117,8 +117,6 @@ public class RobotContainer {
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
       new InstantCommand(m_CoralSubsystem::slowIntake),
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatusINV),
-      new InstantCommand(m_CoralSubsystem::reverseIntake),
-      new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
       new InstantCommand(m_CoralSubsystem::stopCoralMotor))).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
       //Climber Controlls

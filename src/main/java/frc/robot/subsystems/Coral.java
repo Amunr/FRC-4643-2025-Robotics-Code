@@ -43,8 +43,8 @@ public class Coral extends SubsystemBase {
     }
 
     public void startIntake(){
-        m_leftCoralMotor.set(0.15);
-        m_rightCoralMotor.set(0.15);
+        m_leftCoralMotor.set(0.5);
+        m_rightCoralMotor.set(0.5);
 
     }
     public void slowIntake(){
