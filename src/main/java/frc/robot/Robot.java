@@ -4,7 +4,12 @@
 
   package frc.robot;
 
-  import edu.wpi.first.wpilibj.TimedRobot;
+  import com.fasterxml.jackson.databind.node.POJONode;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.TimedRobot;
   import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
   import edu.wpi.first.wpilibj2.command.Command;
   import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -40,12 +45,12 @@
     public void autonomousInit() {
       m_robotContainer.setMotorBrake(false);
       m_robotContainer.driveTrain.setupPathPlanner();
-      m_robotContainer.setMotorBrake(false);
-     m_autonomousCommand = m_robotContainer.getAutonomousCommand("Davis");
+      
+      m_autonomousCommand = m_robotContainer.getAutonomousCommand("Davis");
 
       if (m_autonomousCommand != null) {
-        m_autonomousCommand.schedule();
-      }
+         m_autonomousCommand.schedule();
+       }
     }
 
     @Override
@@ -59,7 +64,9 @@
       if (m_autonomousCommand != null) {
         m_autonomousCommand.cancel();
       }
-      m_robotContainer.setMotorBrake(false);
+       m_robotContainer.setMotorBrake(false);
+       m_robotContainer.driveTrain.resetOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0,0)));
+
     }
 
     @Override

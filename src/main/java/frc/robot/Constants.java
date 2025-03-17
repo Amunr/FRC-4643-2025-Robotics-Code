@@ -49,11 +49,11 @@ public final class Constants
   public static class elevatorConstants {
     public static final int leftElevatorCAN = 14;
     public static final int rightElevatorCAN = 15;
-    public static final int level1Rotations = 10;
-    public static final int level2Rotations = 30;
-    public static final int level3Rotations = 50;
-    public static final int level4Rotations = 70;
-    public static final int levelIntakeRotations = 0;
+    public static final double level1Rotations = 12.166716;
+    public static final double level2Rotations = 24.737940;
+    public static final double level3Rotations = 44.309053;
+    public static final double level4Rotations = 72.716454;
+    public static final double levelIntakeRotations = 2.25;
   }
   public static class coralConstants {
     public static final int leftCoralCAN = 16;

@@ -41,12 +41,13 @@ public class RobotContainer {
 
   // SWERVE
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(driveTrain.getSwerveDrive(),
-      () -> driverXbox.getLeftY() * -1,
-      () -> driverXbox.getLeftX() * -1)
+      () -> driverXbox.getLeftY(),
+      () -> driverXbox.getLeftX())
       .withControllerRotationAxis(driverXbox::getRightX)
       .deadband(controlConstants.deadband)
       .scaleTranslation(0.8)
       .allianceRelativeControl(true);
+
 
   /**
    * Clone's the angular velocity input stream and converts it to a fieldRelative
@@ -80,6 +81,7 @@ public class RobotContainer {
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
    Command scoreL4 = new SequentialCommandGroup(new InstantCommand(m_elevatorSubsystem::setL4),  new InstantCommand(m_elevatorSubsystem::movePOS), new WaitCommand(4), new InstantCommand(m_CoralSubsystem::outtake), new WaitCommand(2), new InstantCommand(m_CoralSubsystem::stopCoralMotor));
+   Command scoreL3 = new SequentialCommandGroup(new InstantCommand(m_elevatorSubsystem::setL3),  new InstantCommand(m_elevatorSubsystem::movePOS), new WaitCommand(4), new InstantCommand(m_CoralSubsystem::outtake), new WaitCommand(2), new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
   private void configureBindings() {
     
@@ -110,6 +112,8 @@ public class RobotContainer {
 
 
     new Trigger(() -> operatorContoller.getRightTriggerAxis() > 0.3).whileTrue(new InstantCommand(m_CoralSubsystem::outtake))
+    .onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
+    new Trigger(() -> operatorContoller.getLeftTriggerAxis() > 0.3).whileTrue(new InstantCommand(m_CoralSubsystem::reverseIntake))
     .onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
     new JoystickButton(operatorContoller, XboxController.Button.kLeftBumper.value).whileTrue(new SequentialCommandGroup( 
