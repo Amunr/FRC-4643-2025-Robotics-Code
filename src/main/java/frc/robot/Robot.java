@@ -54,7 +54,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
     }
 
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+    }
 
     @Override
     public void autonomousExit() {}

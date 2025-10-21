@@ -7,6 +7,7 @@ import java.util.function.BooleanSupplier;
 
 import javax.lang.model.util.ElementScanner14;
 
+import com.revrobotics.spark.SparkAnalogSensor;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -26,11 +27,11 @@ public class Coral extends SubsystemBase {
     SparkMaxConfig rightCoralConfig = new SparkMaxConfig();
 
     // Beam Breaks
-    public static AnalogInput coralBeamBreak = new AnalogInput(coralConstants.frontBeamBreakPort); 
+    public SparkAnalogSensor beamBreakSensor = m_leftCoralMotor.getAnalog();
     public static AnalogInput intakeBeamBreak = new AnalogInput(coralConstants.backBeamBreakPort); 
     // public BooleanSupplier intakeBeamBreakStatus = () -> (intakeBeamBreak.getValue() < 10);
-    public BooleanSupplier coralBeamBreakStatus = () -> (coralBeamBreak.getValue() < 10);
-    public BooleanSupplier coralBeamBreakStatusINV = () -> (coralBeamBreak.getValue() > 10 );
+    public BooleanSupplier coralBeamBreakStatus = () -> (beamBreakSensor.getVoltage() < 0.2);
+    public BooleanSupplier coralBeamBreakStatusINV = () -> (beamBreakSensor.getVoltage() > 3 );
     public Boolean peiceHeld;
     public Coral () {
          peiceHeld =  SmartDashboard.getBoolean("Preload", true);
@@ -78,7 +79,7 @@ public class Coral extends SubsystemBase {
 
     }
     public boolean coralBeamBreakStatus(){
-        if(coralBeamBreak.getValue() > 10){
+        if(beamBreakSensor.getVoltage() > 10){
             return false;
         } else {
             return true;
@@ -95,6 +96,6 @@ public class Coral extends SubsystemBase {
     }
 
     public int coroalBeamBreakStatusINT(){
-        return coralBeamBreak.getValue();
+        return (int) beamBreakSensor.getVoltage();
     } 
 }

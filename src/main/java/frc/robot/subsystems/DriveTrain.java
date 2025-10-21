@@ -54,6 +54,9 @@ public class DriveTrain extends SubsystemBase {
     swerveDrive.setModuleEncoderAutoSynchronize(false,
         1);
 
+
+        setupPhotonVision();
+
   }
 
   /**
