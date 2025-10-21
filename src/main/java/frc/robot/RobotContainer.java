@@ -38,6 +38,7 @@ public class RobotContainer {
   private Elevator m_elevatorSubsystem = new Elevator();
   Coral m_CoralSubsystem = new Coral();
   Climber m_ClimberSubsystem = new Climber();
+  Vision m_VisionSubysystem = new Vision();
 
   // SWERVE
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(driveTrain.getSwerveDrive(),
