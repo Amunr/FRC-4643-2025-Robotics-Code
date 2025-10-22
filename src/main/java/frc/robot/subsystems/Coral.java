@@ -14,7 +14,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.wpilibj.AnalogInput;
+// import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -27,11 +27,11 @@ public class Coral extends SubsystemBase {
     SparkMaxConfig rightCoralConfig = new SparkMaxConfig();
 
     // Beam Breaks
-    public SparkAnalogSensor beamBreakSensor = m_leftCoralMotor.getAnalog();
-    public static AnalogInput intakeBeamBreak = new AnalogInput(coralConstants.backBeamBreakPort); 
+ //   public SparkAnalogSensor beamBreakSensor = m_leftCoralMotor.getAnalog();
+    // public static AnalogInput intakeBeamBreak = new AnalogInput(coralConstants.backBeamBreakPort); 
     // public BooleanSupplier intakeBeamBreakStatus = () -> (intakeBeamBreak.getValue() < 10);
-    public BooleanSupplier coralBeamBreakStatus = () -> (beamBreakSensor.getVoltage() < 0.2);
-    public BooleanSupplier coralBeamBreakStatusINV = () -> (beamBreakSensor.getVoltage() > 3 );
+ //   public BooleanSupplier coralBeamBreakStatus = () -> (beamBreakSensor.getVoltage() < 0.2);
+  //  public BooleanSupplier coralBeamBreakStatusINV = () -> (beamBreakSensor.getVoltage() > 3 );
     public Boolean peiceHeld;
     public Coral () {
          peiceHeld =  SmartDashboard.getBoolean("Preload", true);
@@ -78,24 +78,24 @@ public class Coral extends SubsystemBase {
         m_rightCoralMotor.stopMotor();
 
     }
-    public boolean coralBeamBreakStatus(){
-        if(beamBreakSensor.getVoltage() > 10){
-            return false;
-        } else {
-            return true;
-        }
+    // public boolean coralBeamBreakStatus(){
+    //     if(beamBreakSensor.getVoltage() > 10){
+    //         return false;
+    //     } else {
+    //         return true;
+    //     }
 
-    }
+    // }
 
-    public boolean intakeBeamBreakStatus(){
-        if(intakeBeamBreak.getValue() > 10){
-            return false;
-        } else {
-            return true;
-        }
-    }
+    // public boolean intakeBeamBreakStatus(){
+    //     if(intakeBeamBreak.getValue() > 10){
+    //         return false;
+    //     } else {
+    //         return true;
+    //     }
+    // }
 
-    public int coroalBeamBreakStatusINT(){
-        return (int) beamBreakSensor.getVoltage();
-    } 
+    // public int coroalBeamBreakStatusINT(){
+    //     return (int) beamBreakSensor.getVoltage();
+    // } 
 }
