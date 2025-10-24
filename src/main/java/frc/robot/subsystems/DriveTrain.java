@@ -77,10 +77,15 @@ public class DriveTrain extends SubsystemBase {
           translationX.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
           translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()), 0.8),
           Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
-          true,
+          isFieldRelative(),
           false);
     });
   }
+
+  private boolean isFieldRelative() {
+    var alliance = DriverStation.getAlliance();
+    return !(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red);
+}
 
   public void drive(Translation2d translation, double rotation, boolean fieldRelative) {
     swerveDrive.drive(translation,

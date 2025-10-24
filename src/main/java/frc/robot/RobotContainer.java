@@ -99,8 +99,8 @@ public class RobotContainer {
     new Trigger(() -> operatorContoller.getPOV() == 90).onTrue(new InstantCommand(m_elevatorSubsystem::setL3));
     new Trigger(() -> operatorContoller.getPOV() == 180).onTrue(new InstantCommand(m_elevatorSubsystem::setL4));
     new Trigger(() -> operatorContoller.getPOV() == 270).onTrue(new InstantCommand(m_elevatorSubsystem::setL1));
-   // new Trigger(m_elevatorSubsystem.limitSwitchPressedSup).onTrue(new InstantCommand(m_elevatorSubsystem::resetEnc));
-    //Coral Controls
+ //  new Trigger(m_elevatorSubsystem.limitSwitchPressedSup).onTrue(new InstantCommand(m_elevatorSubsystem::resetEnc));
+  //  Coral Controls
     // new Trigger(() -> m_CoralSubsystem.intakeBeamBreakStatus()).onTrue(new SequentialCommandGroup(
     //   new InstantCommand(m_CoralSubsystem::startIntake), 
     //   new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus).withTimeout(5),
@@ -115,14 +115,14 @@ public class RobotContainer {
     new Trigger(() -> operatorContoller.getLeftTriggerAxis() > 0.3).whileTrue(new InstantCommand(m_CoralSubsystem::reverseIntake))
     .onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
-    // new JoystickButton(operatorContoller, XboxController.Button.kLeftBumper.value).whileTrue(new SequentialCommandGroup( 
-    //   new InstantCommand(m_CoralSubsystem::startIntake), 
-    //   new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
-    //   new InstantCommand(m_CoralSubsystem::slowIntake),
-    //   new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatusINV),
-    //   new InstantCommand(m_CoralSubsystem::stopCoralMotor),
-    //   new InstantCommand(m_CoralSubsystem::peiceHeldTrue)
-    //   )).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
+    new JoystickButton(operatorContoller, XboxController.Button.kLeftBumper.value).whileTrue(new SequentialCommandGroup( 
+      new InstantCommand(m_CoralSubsystem::startIntake), 
+      new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
+      new InstantCommand(m_CoralSubsystem::slowIntake),
+      new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatusINV),
+      new InstantCommand(m_CoralSubsystem::stopCoralMotor),
+      new InstantCommand(m_CoralSubsystem::peiceHeldTrue)
+      )).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
       //Climber Controlls
   new JoystickButton(operatorContoller, XboxController.Button.kY.value).onTrue(new InstantCommand(m_ClimberSubsystem::climb));
@@ -143,8 +143,8 @@ public class RobotContainer {
 
   public void robotContainerPerodic() {
    SmartDashboard.putNumber("Elevator Encoder Position", m_elevatorSubsystem.getEnc());
-  //   SmartDashboard.putNumber("Intake Beam Break Value", m_CoralSubsystem.coroalBeamBreakStatusINT());
-  //   SmartDashboard.putBoolean("FrontBeamBreak",  m_CoralSubsystem.coralBeamBreakStatus());
+    SmartDashboard.putNumber("Intake Beam Break Value", m_CoralSubsystem.coroalBeamBreakStatusINT());
+    SmartDashboard.putBoolean("FrontBeamBreak",  m_CoralSubsystem.coralBeamBreakStatus());
   }
   //Path planner
 
