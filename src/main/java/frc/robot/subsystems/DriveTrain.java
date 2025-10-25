@@ -217,9 +217,10 @@ public class DriveTrain extends SubsystemBase {
     }
   }
 
-/* 
+ /*
   //SETPOINT GENERATOR  
   List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
+        getPose(),
         new Pose2d(1.0, 1.0, Rotation2d.fromDegrees(0)),
         new Pose2d(3.0, 1.0, Rotation2d.fromDegrees(0)),
         new Pose2d(5.0, 3.0, Rotation2d.fromDegrees(90))
