@@ -101,14 +101,14 @@ public class Elevator extends SubsystemBase  {
    }
 
 public void manualControl (double speed, boolean enabled){
-   if(enabled){
-   if(speed>0.05 || speed <-0.05){
-// m_rightElevatorMotor.set(-speed);
-//   m_leftElevatorMotor.set(speed);
-   } else {
-   //   m_rightElevatorMotor.setVoltage(3);
-    //  m_leftElevatorMotor.setVoltage(3);
-   }
-}
-}
+//    if(enabled){
+//    if(speed>0.05 || speed <-0.05){
+//  m_rightElevatorMotor.set(-speed);
+//    m_leftElevatorMotor.set(speed);
+// //    } else {
+//    //   m_rightElevatorMotor.setVoltage(3);
+//     //  m_leftElevatorMotor.setVoltage(3);
+//     }
+//  }
+ }
 }

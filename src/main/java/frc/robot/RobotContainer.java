@@ -97,7 +97,7 @@ public class RobotContainer {
     // Elevator Level set
     new Trigger(() -> operatorContoller.getPOV() == 0).onTrue(new InstantCommand(m_elevatorSubsystem::setL2));
     new Trigger(() -> operatorContoller.getPOV() == 90).onTrue(new InstantCommand(m_elevatorSubsystem::setL3));
-    new Trigger(() -> operatorContoller.getPOV() == 180).onTrue(new InstantCommand(m_elevatorSubsystem::setL4));
+    new Trigger(() -> operatorContoller.getPOV() == 180).onTrue(new InstantCommand(m_elevatorSubsystem::setIntake));
     new Trigger(() -> operatorContoller.getPOV() == 270).onTrue(new InstantCommand(m_elevatorSubsystem::setL1));
  //  new Trigger(m_elevatorSubsystem.limitSwitchPressedSup).onTrue(new InstantCommand(m_elevatorSubsystem::resetEnc));
   //  Coral Controls
@@ -117,23 +117,25 @@ public class RobotContainer {
 
     new JoystickButton(operatorContoller, XboxController.Button.kLeftBumper.value).whileTrue(new SequentialCommandGroup( 
       new InstantCommand(m_CoralSubsystem::startIntake), 
-      new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
-      new InstantCommand(m_CoralSubsystem::slowIntake),
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatusINV),
+      new InstantCommand(m_CoralSubsystem::slowIntake),
+      new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
       new InstantCommand(m_CoralSubsystem::stopCoralMotor),
       new InstantCommand(m_CoralSubsystem::peiceHeldTrue)
       )).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
+
+    
 
       //Climber Controlls
   new JoystickButton(operatorContoller, XboxController.Button.kY.value).onTrue(new InstantCommand(m_ClimberSubsystem::climb));
   
   new JoystickButton(operatorContoller, XboxController.Button.kA.value).onTrue(new InstantCommand(m_ClimberSubsystem::deClimb));
 
-  new JoystickButton(operatorContoller, XboxController.Button.kX.value).onTrue(new InstantCommand(m_elevatorSubsystem::setIntake));
+  new JoystickButton(operatorContoller, XboxController.Button.kX.value).onTrue(new InstantCommand(m_CoralSubsystem::startIntake));
   }
   //DELETE AT SOME POINT
   public void manualElevator(){
-    m_elevatorSubsystem.manualControl(operatorContoller.getRawAxis(2)*-1,false);
+    // m_elevatorSubsystem.manualControl(operatorContoller.getRawAxis(1)*-1,true);
 
   }
 
@@ -143,7 +145,6 @@ public class RobotContainer {
 
   public void robotContainerPerodic() {
    SmartDashboard.putNumber("Elevator Encoder Position", m_elevatorSubsystem.getEnc());
-    SmartDashboard.putNumber("Intake Beam Break Value", m_CoralSubsystem.coroalBeamBreakStatusINT());
     SmartDashboard.putBoolean("FrontBeamBreak",  m_CoralSubsystem.coralBeamBreakStatus());
     SmartDashboard.putNumber("Climber encoder", m_ClimberSubsystem.getClimb());
   }

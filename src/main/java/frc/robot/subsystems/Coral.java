@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
 
 import java.util.function.BooleanSupplier;
@@ -27,11 +28,11 @@ public class Coral extends SubsystemBase {
     SparkMaxConfig rightCoralConfig = new SparkMaxConfig();
 
     // Beam Breaks
-    public SparkAnalogSensor beamBreakSensor = m_leftCoralMotor.getAnalog();
+    public SparkLimitSwitch beamBreakSensor = m_leftCoralMotor.getForwardLimitSwitch();
    // OLD public static AnalogInput intakeBeamBreak = new AnalogInput(coralConstants.backBeamBreakPort); 
     //OLD  public BooleanSupplier intakeBeamBreakStatus = () -> (intakeBeamBreak.getValue() < 10);
-    public BooleanSupplier coralBeamBreakStatus = () -> (beamBreakSensor.getVoltage() < 0.2);
-    public BooleanSupplier coralBeamBreakStatusINV = () -> (beamBreakSensor.getVoltage() > 3 );
+    public BooleanSupplier coralBeamBreakStatus = () -> (beamBreakSensor.isPressed());
+    public BooleanSupplier coralBeamBreakStatusINV = () -> (!beamBreakSensor.isPressed());
     public Boolean peiceHeld;
     public Coral () {
          peiceHeld =  SmartDashboard.getBoolean("Preload", true);
@@ -49,9 +50,8 @@ public class Coral extends SubsystemBase {
     }
 
     public void startIntake(){
-        m_leftCoralMotor.set(0.5);
-        m_rightCoralMotor.set(0.5);
-
+        m_leftCoralMotor.set(0.2);
+        m_rightCoralMotor.set(0.2);
     }
     public void slowIntake(){
         m_leftCoralMotor.set(0.08);
@@ -79,12 +79,8 @@ public class Coral extends SubsystemBase {
 
     }
     public boolean coralBeamBreakStatus(){
-        if(beamBreakSensor.getVoltage() > 10){
-            return false;
-        } else {
-            return true;
-        }
-
+            return beamBreakSensor.isPressed();
+ 
     }
 
     // public boolean intakeBeamBreakStatus(){
@@ -94,8 +90,4 @@ public class Coral extends SubsystemBase {
     //         return true;
     //     }
     // }
-
-    public int coroalBeamBreakStatusINT(){
-        return (int) beamBreakSensor.getVoltage();
-    } 
 }

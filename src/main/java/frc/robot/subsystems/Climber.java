@@ -26,15 +26,18 @@ public class Climber extends SubsystemBase {
             .idleMode(IdleMode.kCoast);
             climberMotorConfig.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            .pid(0.0001,0,0);
+            .pid(0.001,0,0);
             m_climberMotor.configure(climberMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void climb(){
-        climberPID.setReference(10, SparkBase.ControlType.kPosition);
+        climberPID.setReference(-110, SparkBase.ControlType.kPosition);
     }
     public void deClimb(){
         climberPID.setReference(0, SparkBase.ControlType.kPosition);
+    }
+    public void backDrive(){
+        climberPID.setReference(110, SparkBase.ControlType.kPosition);
     }
     public double getClimb(){
         return climbEncoder.getPosition();
