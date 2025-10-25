@@ -145,6 +145,7 @@ public class RobotContainer {
    SmartDashboard.putNumber("Elevator Encoder Position", m_elevatorSubsystem.getEnc());
     SmartDashboard.putNumber("Intake Beam Break Value", m_CoralSubsystem.coroalBeamBreakStatusINT());
     SmartDashboard.putBoolean("FrontBeamBreak",  m_CoralSubsystem.coralBeamBreakStatus());
+    SmartDashboard.putNumber("Climber encoder", m_ClimberSubsystem.getClimb());
   }
   //Path planner
 
