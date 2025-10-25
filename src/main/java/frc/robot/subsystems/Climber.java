@@ -17,27 +17,23 @@ import frc.robot.Constants;
 public class Climber extends SubsystemBase {
     public static SparkMax m_climberMotor = new SparkMax(Constants.climberConstants.climberMotorCAN, MotorType.kBrushless);
     SparkMaxConfig climberMotorConfig = new SparkMaxConfig();
-    static SparkClosedLoopController climberPID = m_climberMotor.getClosedLoopController();
         public RelativeEncoder climbEncoder = m_climberMotor.getEncoder(); 
 
     public Climber(){
             climberMotorConfig
             .inverted(false)
             .idleMode(IdleMode.kCoast);
-            climberMotorConfig.closedLoop
-            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            .pid(0.001,0,0);
             m_climberMotor.configure(climberMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void climb(){
-        climberPID.setReference(-110, SparkBase.ControlType.kPosition);
+        m_climberMotor.set(-0.3);
     }
     public void deClimb(){
-        climberPID.setReference(0, SparkBase.ControlType.kPosition);
+        m_climberMotor.set(0.3);
     }
-    public void backDrive(){
-        climberPID.setReference(110, SparkBase.ControlType.kPosition);
+    public void stop(){
+        m_climberMotor.stopMotor();
     }
     public double getClimb(){
         return climbEncoder.getPosition();
