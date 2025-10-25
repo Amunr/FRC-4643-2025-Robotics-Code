@@ -28,7 +28,7 @@ public class Coral extends SubsystemBase {
     SparkMaxConfig rightCoralConfig = new SparkMaxConfig();
 
     // Beam Breaks
-    public SparkLimitSwitch beamBreakSensor = m_leftCoralMotor.getForwardLimitSwitch();
+    public SparkLimitSwitch beamBreakSensor = m_leftCoralMotor.getReverseLimitSwitch();
    // OLD public static AnalogInput intakeBeamBreak = new AnalogInput(coralConstants.backBeamBreakPort); 
     //OLD  public BooleanSupplier intakeBeamBreakStatus = () -> (intakeBeamBreak.getValue() < 10);
     public BooleanSupplier coralBeamBreakStatus = () -> (beamBreakSensor.isPressed());
@@ -50,8 +50,8 @@ public class Coral extends SubsystemBase {
     }
 
     public void startIntake(){
-        m_leftCoralMotor.set(0.2);
-        m_rightCoralMotor.set(0.2);
+        m_leftCoralMotor.set(0.7);
+        m_rightCoralMotor.set(0.7);
     }
     public void slowIntake(){
         m_leftCoralMotor.set(0.08);

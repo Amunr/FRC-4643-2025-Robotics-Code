@@ -117,9 +117,9 @@ public class RobotContainer {
 
     new JoystickButton(operatorContoller, XboxController.Button.kLeftBumper.value).whileTrue(new SequentialCommandGroup( 
       new InstantCommand(m_CoralSubsystem::startIntake), 
-      new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatusINV),
-      new InstantCommand(m_CoralSubsystem::slowIntake),
       new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatus),
+      new InstantCommand(m_CoralSubsystem::slowIntake),
+      new WaitUntilCommand(m_CoralSubsystem.coralBeamBreakStatusINV),
       new InstantCommand(m_CoralSubsystem::stopCoralMotor),
       new InstantCommand(m_CoralSubsystem::peiceHeldTrue)
       )).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
