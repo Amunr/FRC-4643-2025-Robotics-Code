@@ -252,7 +252,7 @@ public class DriveTrain extends SubsystemBase {
         return new Pose2d(new Translation2d(xd,yd), new Rotation2d(xd-centX,yd-centY));
 
 
-        //2d translation excepts a anlge in radians not vectors?
+        //2d translation excepts a anlge in radians not vectors? 
     }
 
  
