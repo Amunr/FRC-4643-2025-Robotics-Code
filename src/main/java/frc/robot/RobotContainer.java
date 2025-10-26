@@ -124,6 +124,8 @@ public class RobotContainer {
       new InstantCommand(m_CoralSubsystem::peiceHeldTrue)
       )).onFalse(new InstantCommand(m_CoralSubsystem::stopCoralMotor));
 
+    new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value).onTrue(new InstantCommand(driveTrain::getToPoint)).onFalse(new InstantCommand(driveTrain::cancelGetToPoint));
+
     
 
       //Climber Controlls

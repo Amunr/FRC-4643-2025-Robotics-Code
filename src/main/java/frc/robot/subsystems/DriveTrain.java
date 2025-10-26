@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
@@ -35,13 +37,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import static edu.wpi.first.units.Units.Meter;
-
 public class DriveTrain extends SubsystemBase {
   public SwerveDrive swerveDrive;
   public double maximumSpeed = Units.feetToMeters(20);
   public Vision visionSubsystem;
   private boolean k_vision;
-
+  public Command dynamicPath;
   public DriveTrain(File directory) {
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try {
@@ -62,6 +63,7 @@ public class DriveTrain extends SubsystemBase {
 
 
       setupPhotonVision();
+  
 
   }
 
@@ -219,18 +221,49 @@ public class DriveTrain extends SubsystemBase {
       SmartDashboard.putNumber("Pose X", getPose().getX());
       SmartDashboard.putNumber("PoseY", getPose().getY());
       SmartDashboard.putNumber("Pose rotation", getPose().getRotation().getDegrees());
+
     }
   }
 
- /*
-  //SETPOINT GENERATOR  
+  public Pose2d nearestReef(Pose2d robotPos){
+        var c = 8.774176*2;
+        var dist = 500;
+       //NOTE DOES DIST NEED TO BE CHANCGED TO THE CLOOSEST?
+        var centX = Constants.reefConstants.reefX;
+        var centY = Constants.reefConstants.reefY;
+        double xd=0;
+        double yd=0;
+        var alliance = DriverStation.getAlliance();
+        for(var i=0;i<Constants.reefConstants.pointsX.length;i++){
+            var xpos = Constants.reefConstants.pointsX[i];
+            var ypos = Constants.reefConstants.pointsY[i];
+            if(alliance.get() == DriverStation.Alliance.Red){
+                xpos= xpos * (-1) + c;
+                //ypos= ypos * (-1) + c;
+                centX =  Constants.reefConstants.reefX* (-1) + c;
+            }
+            if( (robotPos.getX()-xpos)*(robotPos.getX()-xpos) + (robotPos.getY()-ypos)*(robotPos.getY()-ypos)  < dist){
+               
+                xd=xpos;
+                yd=ypos;
+            }
+        }
+       //BRET DOES THIS RETURN THE FINIAL POSTION OR THE TRANSLATION 2D to get there. We just need the closest final position. 
+        return new Pose2d(new Translation2d(xd,yd), new Rotation2d(xd-centX,yd-centY));
+
+
+        //2d translation excepts a anlge in radians not vectors?
+    }
+
+ 
+    
+
+public void getToPoint(){
   List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
         getPose(),
-        new Pose2d(1.0, 1.0, Rotation2d.fromDegrees(0)),
-);
+        nearestReef(getPose())); 
 
 PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI); // The constraints for this path.
-// PathConstraints constraints = PathConstraints.unlimitedConstraints(12.0); // You can also use unlimited constraints, only limited by motor torque and nominal battery voltage
 
 // Create the path using the waypoints created above
 PathPlannerPath path = new PathPlannerPath(
@@ -239,8 +272,14 @@ PathPlannerPath path = new PathPlannerPath(
         null, // The ideal starting state, this is only relevant for pre-planned paths, so can be null for on-the-fly paths.
         new GoalEndState(0.0, Rotation2d.fromDegrees(-90)) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
 );
+  dynamicPath = AutoBuilder.followPath(path);
+  dynamicPath.schedule();
+}
 
-// Prevent the path from being flipped if the coordinates are already correct
-path.preventFlipping = true;
-*/
+public void cancelGetToPoint(){
+  if (dynamicPath != null && dynamicPath.isScheduled()) {
+  dynamicPath.cancel();
+  }
+}
+
 }

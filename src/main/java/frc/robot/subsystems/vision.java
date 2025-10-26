@@ -38,11 +38,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
         private PhotonPipelineResult latestResult;
        private final Matrix<N3, N1> SINGLE_TAG_STD_DEVS = VecBuilder.fill(4, 4, 8);
 private final Matrix<N3, N1> MULTI_TAG_STD_DEVS = VecBuilder.fill(0.5, 0.5, 1);
-private static final double MAX_AMBIGUITY = 0.3;
-private static final double MAX_DISTANCE = 4.0;
+private static final double MAX_AMBIGUITY = 300;
+private static final double MAX_DISTANCE = 400.0;
 private static final double MAX_Z_ERROR = 0.75;
-private static final double MAX_POSE_JUMP = 2.0;
-private static final double MAX_ROTATION_JUMP = Math.PI / 2;
+private static final double MAX_POSE_JUMP = 200;
+private static final double MAX_ROTATION_JUMP = Math.PI *4;
 public Vision() {
              aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
 
@@ -188,7 +188,7 @@ return true;
                     pose.estimatedPose.toPose2d(),  // Convert estimated pose to Pose2d
                     pose.timestampSeconds,
                     stdDevs       // Timestamp from the vision system
-                );
+                );  
             } catch (Exception e) {
                 System.err.println("Error adding vision measurement: " + e.getMessage());
             }
