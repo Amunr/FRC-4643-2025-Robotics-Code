@@ -40,7 +40,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 private final Matrix<N3, N1> MULTI_TAG_STD_DEVS = VecBuilder.fill(0.5, 0.5, 1);
 private static final double MAX_AMBIGUITY = 300;
 private static final double MAX_DISTANCE = 400.0;
-private static final double MAX_Z_ERROR = 0.75;
+private static final double MAX_Z_ERROR = 5;
 private static final double MAX_POSE_JUMP = 200;
 private static final double MAX_ROTATION_JUMP = Math.PI *4;
 public Vision() {
@@ -80,6 +80,7 @@ public Vision() {
                 System.err.println("Error in pose generation");
                 return Optional.empty();
             }
+            
         }
 
     private boolean isValidPose(EstimatedRobotPose pose, Pose2d prevOdometryPose) {
@@ -138,7 +139,7 @@ if (rotationDiff > MAX_ROTATION_JUMP) {
 return true;
 
         
-    }
+    } 
     private Matrix<N3, N1> calculateStdDevs(EstimatedRobotPose pose) {
         int tagCount = pose.targetsUsed.size();
         
@@ -175,7 +176,6 @@ return true;
     
     public void updatePoseEstimation(SwerveDrive swerveDrive, Pose2d prevEstimatedRobotPose) {
         Optional<EstimatedRobotPose> poseEst = getEstimatedGlobalPose(prevEstimatedRobotPose);
-
         poseEst.ifPresent(pose -> {
             try {
 

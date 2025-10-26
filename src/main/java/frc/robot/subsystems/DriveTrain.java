@@ -281,5 +281,4 @@ public void cancelGetToPoint(){
   dynamicPath.cancel();
   }
 }
-
 }
