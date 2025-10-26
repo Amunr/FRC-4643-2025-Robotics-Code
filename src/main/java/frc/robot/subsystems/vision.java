@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
         private PhotonPipelineResult latestResult;
 
         public Vision() {
-            AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+             aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
 
             camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
             robotToCam = new Transform3d(new Translation3d(0.117, 0.686, 0.5), new Rotation3d(0, 0, 0)); // Cam mounted

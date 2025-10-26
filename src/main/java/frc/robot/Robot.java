@@ -74,8 +74,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
           mult= -1;
         }
       }
-
-       m_robotContainer.driveTrain.resetOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(1*mult,0)));
+//Bad Idea
+   //    m_robotContainer.driveTrain.resetOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(1*mult,0)));
 
     }
 

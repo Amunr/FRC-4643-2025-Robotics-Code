@@ -75,31 +75,31 @@ public class DriveTrain extends SubsystemBase {
    * @param headingY     Heading Y to calculate angle of the joystick.
    * @return Drive command.
    */
-  public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY,
-      DoubleSupplier angularRotationX) {
-    return run(() -> {
-      // Make the robot move
-      swerveDrive.drive(SwerveMath.scaleTranslation(new Translation2d(
-          translationX.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
-          translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()), 0.8),
-          Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
-          isFieldRelative(),
-          false);
-    });
-  }
+  // public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY,
+  //     DoubleSupplier angularRotationX) {
+  //   return run(() -> {
+  //     // Make the robot move
+  //     swerveDrive.drive(SwerveMath.scaleTranslation(new Translation2d(
+  //         translationX.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
+  //         translationY.getAsDouble() * swerveDrive.getMaximumChassisVelocity()), 0.8),
+  //         Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
+  //         isFieldRelative(),
+  //         false);
+  //   });
+  // }
 
-  private boolean isFieldRelative() {
-    var alliance = DriverStation.getAlliance();
-    return !(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red);
-}
-
+//   private boolean isFieldRelative() {
+//     var alliance = DriverStation.getAlliance();
+//     return !(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red);
+// }
+/* 
   public void drive(Translation2d translation, double rotation, boolean fieldRelative) {
     swerveDrive.drive(translation,
         rotation,
         fieldRelative,
         false); // Open loop is disabled since it shouldn't be used most of the time.
   }
-
+*/
   public SwerveDrive getSwerveDrive() {
     return swerveDrive;
   }
