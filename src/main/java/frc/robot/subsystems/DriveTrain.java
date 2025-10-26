@@ -19,6 +19,7 @@ import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -60,7 +61,7 @@ public class DriveTrain extends SubsystemBase {
         1);
 
 
-   //     setupPhotonVision();
+      setupPhotonVision();
 
   }
 
@@ -214,6 +215,9 @@ public class DriveTrain extends SubsystemBase {
     if (k_vision) {
       swerveDrive.updateOdometry();
       visionSubsystem.updatePoseEstimation(swerveDrive, swerveDrive.getPose());
+      SmartDashboard.putNumber("Pose X", getPose().getX());
+      SmartDashboard.putNumber("PoseY", getPose().getY());
+      SmartDashboard.putNumber("Pose rotation", getPose().getRotation().getDegrees());
     }
   }
 
@@ -222,8 +226,6 @@ public class DriveTrain extends SubsystemBase {
   List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
         getPose(),
         new Pose2d(1.0, 1.0, Rotation2d.fromDegrees(0)),
-        new Pose2d(3.0, 1.0, Rotation2d.fromDegrees(0)),
-        new Pose2d(5.0, 3.0, Rotation2d.fromDegrees(90))
 );
 
 PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI); // The constraints for this path.
