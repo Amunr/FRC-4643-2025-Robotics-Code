@@ -212,8 +212,9 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (k_vision) {
-      swerveDrive.updateOdometry();
+    swerveDrive.updateOdometry();
+    if (k_vision && visionSubsystem !=null) {
+
       visionSubsystem.updatePoseEstimation(swerveDrive, swerveDrive.getPose());
       SmartDashboard.putNumber("Pose X", getPose().getX());
       SmartDashboard.putNumber("PoseY", getPose().getY());
