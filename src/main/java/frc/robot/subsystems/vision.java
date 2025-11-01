@@ -59,6 +59,8 @@ public Vision() {
 
                     photonPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
                     System.out.println("[Vision] Initialized successfully");
+                    System.out.println("[Vision] Initialized successfully");
+                    SmartDashboard.putBoolean("Vision/Initialized", true);
 
         }
 
@@ -67,21 +69,56 @@ public Vision() {
             try {
                 photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
                 unreadResults = camera.getAllUnreadResults();
+                
+                // ADD: Log result count
+                int resultCount = unreadResults != null ? unreadResults.size() : 0;
+                SmartDashboard.putNumber("Vision/UnreadResultsCount", resultCount);
+                SmartDashboard.putBoolean("Vision/CameraConnected", camera.isConnected());
+                
                 if (unreadResults.isEmpty()) {
+                    SmartDashboard.putBoolean("Vision/HasResults", false);
+                    SmartDashboard.putString("Vision/Status", "No unread results");
                     return Optional.empty();
                 }
+                
                 latestResult = unreadResults.get(unreadResults.size() - 1);
+                
+                boolean hasTargets = latestResult != null && latestResult.hasTargets();
+                SmartDashboard.putBoolean("Vision/HasTargets", hasTargets);
+                
                 if (latestResult == null || !latestResult.hasTargets()) {
-                    return Optional.empty(); // Avoid null pointer issues
+                    SmartDashboard.putString("Vision/Status", "No targets detected");
+                    return Optional.empty();
                 }
-
-                return photonPoseEstimator.update(latestResult);
+                
+                // ADD: Log detected tag IDs
+                int targetCount = latestResult.getTargets().size();
+                SmartDashboard.putNumber("Vision/TargetCount", targetCount);
+                
+                String targetIDs = "";
+                for (PhotonTrackedTarget target : latestResult.getTargets()) {
+                    targetIDs += target.getFiducialId() + ",";
+                }
+                SmartDashboard.putString("Vision/DetectedTagIDs", targetIDs);
+                
+                Optional<EstimatedRobotPose> estimate = photonPoseEstimator.update(latestResult);
+                
+                if (estimate.isPresent()) {
+                    SmartDashboard.putString("Vision/Status", "Pose estimate generated ✓");
+                } else {
+                    SmartDashboard.putString("Vision/Status", "Estimator returned empty");
+                }
+                
+                return estimate;
+        
             } catch (Exception e) {
-                System.err.println("Error in pose generation");
+                System.err.println("Error in pose generation: " + e.getMessage());
+                e.printStackTrace();
+                SmartDashboard.putString("Vision/Status", "ERROR: " + e.getMessage());
                 return Optional.empty();
             }
-            
         }
+        
 
     private boolean isValidPose(EstimatedRobotPose pose, Pose2d prevOdometryPose) {
         Pose3d estimatedPose3d = pose.estimatedPose;
@@ -101,6 +138,8 @@ public Vision() {
             .mapToDouble(PhotonTrackedTarget::getPoseAmbiguity)
             .max()
             .orElse(0);
+            SmartDashboard.putNumber("Vision/MaxAmbiguity", maxAmbiguity);  // ADD THIS
+
         
         if (maxAmbiguity > MAX_AMBIGUITY) {
             return false;
@@ -176,8 +215,17 @@ return true;
     
     public void updatePoseEstimation(SwerveDrive swerveDrive, Pose2d prevEstimatedRobotPose) {
         Optional<EstimatedRobotPose> poseEst = getEstimatedGlobalPose(prevEstimatedRobotPose);
+        SmartDashboard.putBoolean("Vision/PoseEstimatePresent", poseEst.isPresent());
+
         poseEst.ifPresent(pose -> {
             try {
+                Pose3d estimatedPose3d = pose.estimatedPose;
+                Pose2d estimatedPose2d = estimatedPose3d.toPose2d();
+                SmartDashboard.putNumber("Vision/EstimatedPoseX", estimatedPose2d.getX());
+                SmartDashboard.putNumber("Vision/EstimatedPoseY", estimatedPose2d.getY());
+                SmartDashboard.putNumber("Vision/EstimatedPoseZ", estimatedPose3d.getZ());
+                SmartDashboard.putNumber("Vision/EstimatedRotation", estimatedPose2d.getRotation().getDegrees());
+                SmartDashboard.putNumber("Vision/Timestamp", pose.timestampSeconds);
 
                 if (!isValidPose(pose, prevEstimatedRobotPose)){
                     return;

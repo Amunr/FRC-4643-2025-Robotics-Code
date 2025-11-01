@@ -215,14 +215,13 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     swerveDrive.updateOdometry();
-    if (k_vision && visionSubsystem !=null) {
+
 
       visionSubsystem.updatePoseEstimation(swerveDrive, swerveDrive.getPose());
       SmartDashboard.putNumber("Pose X", getPose().getX());
       SmartDashboard.putNumber("PoseY", getPose().getY());
       SmartDashboard.putNumber("Pose rotation", getPose().getRotation().getDegrees());
 
-    }
   }
 
   public Pose2d nearestReef(Pose2d robotPos){
